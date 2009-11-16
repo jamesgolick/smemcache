@@ -3,7 +3,8 @@ import org.specs._
 import org.specs.mock.Mockito
 import org.mockito._
 import java.net.InetSocketAddress
-import com.protose.smemcache.Smemcache._
+import com.protose.smemcache.Memcache._
+import net.spy.memcached.MemcachedClient
 
 object SmemcacheSpec extends Specification with Mockito {
     "implicitly converting a string to InetSocketAddress" should {
@@ -17,6 +18,16 @@ object SmemcacheSpec extends Specification with Mockito {
             val addr: InetSocketAddress = "localhost"
             addr.getHostName must_== "localhost"
             addr.getPort must_== 11211
+        }
+    }
+
+    "doing a cache get" should {
+        "delegate to the underlying client" in {
+            val underlyingClient = mock[MemcachedClient]
+            underlyingClient.get("someKey") returns "some value"
+            val cache            = new Memcache(underlyingClient)
+            cache.get("someKey") must_== "some value"
+            underlyingClient.get("someKey") was called
         }
     }
 }

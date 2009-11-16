@@ -1,7 +1,8 @@
 package com.protose.smemcache
 import java.net.InetSocketAddress
+import net.spy.memcached.MemcachedClient
 
-object Smemcache {
+object Memcache {
     implicit def string2InetSocketAddress(string: String):
         InetSocketAddress = {
         val split    = string.split(":")
@@ -11,7 +12,11 @@ object Smemcache {
         }
     }
 }
-class Smemcache {
+
+class Memcache(val client: MemcachedClient) {
+    def get(key: String): Any = {
+        client.get(key)
+    }
 }
 
 // vim: set ts=4 sw=4 et:
