@@ -21,7 +21,11 @@ class Memcache(val client: MemcachedClient) {
     }
 
     def set(key: String, value: Object): Future[JBool] = {
-        client.set(key, 0, value)
+        set(key, value, 0)
+    }
+
+    def set(key: String, value: Object, expiration: Int): Future[JBool] = {
+        client.set(key, expiration, value)
     }
 }
 

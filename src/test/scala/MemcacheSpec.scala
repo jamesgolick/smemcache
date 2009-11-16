@@ -46,6 +46,12 @@ object MemcacheSpec extends Specification with Mockito {
             cache.set("someKey", "someValue")
             underlyingClient.set("someKey", 0, "someValue") was called
         }
+
+        "have a signature that accepts an expiration" in {
+            underlyingClient.set("someKey", 9, "someValue") returns future
+            cache.set("someKey", "someValue", 9)
+            underlyingClient.set("someKey", 9, "someValue") was called
+        }
     }
 }
 
