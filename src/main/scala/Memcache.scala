@@ -1,6 +1,8 @@
 package com.protose.smemcache
 import java.net.InetSocketAddress
 import net.spy.memcached.MemcachedClient
+import java.util.concurrent.Future
+import java.lang.{Boolean => JBool}
 
 object Memcache {
     implicit def string2InetSocketAddress(string: String):
@@ -16,6 +18,10 @@ object Memcache {
 class Memcache(val client: MemcachedClient) {
     def get(key: String): Any = {
         client.get(key)
+    }
+
+    def set(key: String, value: Object): Future[JBool] = {
+        client.set(key, 0, value)
     }
 }
 
