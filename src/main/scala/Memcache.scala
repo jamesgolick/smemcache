@@ -14,6 +14,11 @@ object Memcache {
             case 2 => new InetSocketAddress(split.first, split.last.toInt)
         }
     }
+
+    def apply(servers: InetSocketAddress*) = {
+        val client = new MemcachedClient(servers: _*)
+        new Memcache(client)
+    }
 }
 
 class Memcache(val client: MemcachedClient) {
