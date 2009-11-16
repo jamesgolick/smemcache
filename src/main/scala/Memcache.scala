@@ -3,6 +3,7 @@ import java.net.InetSocketAddress
 import net.spy.memcached.MemcachedClient
 import java.util.concurrent.Future
 import java.lang.{Boolean => JBool}
+import scala.collection.jcl.Conversions._
 
 object Memcache {
     implicit def string2InetSocketAddress(string: String):
@@ -26,6 +27,16 @@ class Memcache(val client: MemcachedClient) {
 
     def set(key: String, value: Object, expiration: Int):
         Future[JBool] = client.set(key, expiration, value)
+
+    def multiGet(keys: List[String]): Map[String, Object] = {
+        client.getBulk(keys).foldLeft(Map[String, Object]()) { (m, n) => 
+            m + n
+        }
+    }
+
+    implicit def list2JavaList(list: List[String]):
+        java.util.Collection[String] =
+            java.util.Arrays.asList(list.toArray: _*)
 }
 
 // vim: set ts=4 sw=4 et:

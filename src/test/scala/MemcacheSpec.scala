@@ -10,6 +10,9 @@ import java.util.concurrent.Callable
 import java.lang.{Boolean => JBool}
 
 object MemcacheSpec extends Specification with Mockito {
+    implicit def convertScalaListToJavaList(aList:List[String]) =
+        java.util.Arrays.asList(aList.toArray: _*)
+
     "implicitly converting a string to InetSocketAddress" should {
         "split the host and port" in {
             val addr: InetSocketAddress = "localhost:1234"
@@ -51,6 +54,17 @@ object MemcacheSpec extends Specification with Mockito {
             underlyingClient.set("someKey", 9, "someValue") returns future
             cache.set("someKey", "someValue", 9)
             underlyingClient.set("someKey", 9, "someValue") was called
+        }
+    }
+
+    "doing a multiGet" should {
+        "delegate to the client" in {
+            val map      = new java.util.HashMap[String, Object]()
+            val scalaMap = Map("key1" -> "value1")
+
+            map.put("key1", "value1")
+            underlyingClient.getBulk(List("key1", "key2")) returns map
+            cache.multiGet(List("key1", "key2")) must_== scalaMap
         }
     }
 }
