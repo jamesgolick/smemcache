@@ -24,9 +24,8 @@ class Memcache(val client: MemcachedClient) {
         set(key, value, 0)
     }
 
-    def set(key: String, value: Object, expiration: Int): Future[JBool] = {
-        client.set(key, expiration, value)
-    }
+    def set(key: String, value: Object, expiration: Int):
+        Future[JBool] = client.set(key, expiration, value)
 }
 
 // vim: set ts=4 sw=4 et:
