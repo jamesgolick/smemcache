@@ -6,7 +6,7 @@ import java.net.InetSocketAddress
 import com.protose.smemcache.Memcache._
 import net.spy.memcached.MemcachedClient
 
-object SmemcacheSpec extends Specification with Mockito {
+object MemcacheSpec extends Specification with Mockito {
     "implicitly converting a string to InetSocketAddress" should {
         "split the host and port" in {
             val addr: InetSocketAddress = "localhost:1234"
