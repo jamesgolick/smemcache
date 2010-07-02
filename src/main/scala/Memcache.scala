@@ -1,8 +1,11 @@
 package com.protose.smemcache
+
 import java.net.InetSocketAddress
-import net.spy.memcached.MemcachedClient
 import java.util.concurrent.Future
 import java.lang.{Boolean => JBool}
+
+import net.spy.memcached.MemcachedClient
+
 import scala.collection.jcl.Conversions._
 
 object Memcache {
