@@ -39,6 +39,10 @@ class Memcache(val client: MemcachedClient) {
     }
   }
 
+  def prepend[A](key: String, value: A): Future[JBool] = {
+    client.prepend(0, key, value)
+  }
+
   implicit def list2JavaList(list: List[String]):
     java.util.Collection[String] =
       java.util.Arrays.asList(list.toArray: _*)

@@ -70,4 +70,12 @@ object MemcacheSpec extends Specification with Mockito {
     underlyingClient.getBulk(List("key1", "key2")) returns map
     cache.multiGet(List("key1", "key2")) must_== scalaMap
   }
+
+  "prepending to a key delegates to the client" in {
+    underlyingClient.prepend(0, "a", "b") returns future
+    cache.prepend("a", "b")
+    got {
+      underlyingClient.prepend(0, "a", "b")
+    }
+  }
 }
