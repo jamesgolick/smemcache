@@ -6,7 +6,7 @@ import java.lang.{Boolean => JBool}
 
 import net.spy.memcached.MemcachedClient
 
-import scala.collection.jcl.Conversions._
+import scala.collection.JavaConversions._
 
 object Memcache {
   implicit def string2InetSocketAddress(string: String):
