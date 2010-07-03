@@ -37,7 +37,7 @@ object MemcacheSpec extends Specification with Mockito {
 
     "doing a cache get delegates to the underlying client" in {
       underlyingClient.get("someKey") returns "some value"
-      cache.get("someKey") must_== "some value"
+      cache.get[String]("someKey") must_== "some value"
       there was one(underlyingClient).get("someKey")
     }
 

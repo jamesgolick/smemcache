@@ -25,24 +25,21 @@ object Memcache {
 }
 
 class Memcache(val client: MemcachedClient) {
-  def get(key: String): Any = {
-      client.get(key)
+  def get[A](key: String): A = {
+    client.get(key).asInstanceOf[A]
   }
 
-  def set(key: String, value: Object): Future[JBool] = {
-      set(key, value, 0)
+  def set[A](key: String, value: A, expiration: Int = 0): Future[JBool] = {
+    client.set(key, expiration, value.asInstanceOf[Object])
   }
 
-  def set(key: String, value: Object, expiration: Int):
-      Future[JBool] = client.set(key, expiration, value)
-
-  def multiGet(keys: List[String]): Map[String, Object] = {
-      client.getBulk(keys).foldLeft(Map[String, Object]()) { (m, n) => 
-          m + n
-      }
+  def multiGet[A](keys: List[String]): Map[String, A] = {
+    client.getBulk(keys).foldLeft(Map[String, A]()) { case (m, (k,v)) => 
+      m + (k -> v.asInstanceOf[A])
+    }
   }
 
   implicit def list2JavaList(list: List[String]):
-      java.util.Collection[String] =
-          java.util.Arrays.asList(list.toArray: _*)
+    java.util.Collection[String] =
+      java.util.Arrays.asList(list.toArray: _*)
 }
