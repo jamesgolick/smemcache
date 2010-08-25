@@ -33,8 +33,8 @@ class Memcache(val client: MemcachedClient) {
     client.set(key, expiration, value.asInstanceOf[Object])
   }
 
-  def multiGet[A](keys: List[String]): Map[String, A] = {
-    client.getBulk(keys).foldLeft(Map[String, A]()) { case (m, (k,v)) => 
+  def multiGet[A](keys: Set[String]): Map[String, A] = {
+    client.getBulk(keys.toList).foldLeft(Map[String, A]()) { case (m, (k,v)) =>
       m + (k -> v.asInstanceOf[A])
     }
   }
@@ -42,8 +42,4 @@ class Memcache(val client: MemcachedClient) {
   def prepend[A](key: String, value: A): Future[JBool] = {
     client.prepend(0, key, value)
   }
-
-  implicit def list2JavaList(list: List[String]):
-    java.util.Collection[String] =
-      java.util.Arrays.asList(list.toArray: _*)
 }
