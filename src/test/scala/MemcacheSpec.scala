@@ -79,7 +79,7 @@ object MemcacheSpec extends Specification with Mockito {
 
     map.put("key1", "value1")
     underlyingClient.getBulk(Set("key1", "key2", "key3").toList) returns map
-    cache.multigetWithMissFunction(Set("key1", "key2", "key3"))(missFunc) must_== scalaMap
+    cache.multigetWithMiss(Set("key1", "key2", "key3"))(missFunc) must_== scalaMap
     there was one(underlyingClient).set("key2", 0, "a")
     there was one(underlyingClient).set("key3", 0, "a")
     called must_== List("key2", "key3")

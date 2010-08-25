@@ -39,7 +39,7 @@ class Memcache(val client: MemcachedClient) {
     }
   }
 
-  def multigetWithMissFunction[A](keys: Set[String])(missFunc: String => Option[A]): Map[String, A] = {
+  def multigetWithMiss[A](keys: Set[String])(missFunc: String => Option[A]): Map[String, A] = {
     val hits = multiget(keys)
     (keys -- hits.keySet).foldLeft[Map[String, A]](hits) { (results, missKey) =>
       missFunc(missKey) match {
