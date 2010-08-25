@@ -35,9 +35,15 @@ object MemcacheSpec extends Specification with Mockito {
   val underlyingClient = mock[MemcachedClient]
   val cache            = new Memcache(underlyingClient)
 
-  "doing a cache get delegates to the underlying client" in {
+  "doing a cache get delegates and returns Some if the value is present" in {
     underlyingClient.get("someKey") returns "some value"
-    cache.get[String]("someKey") must_== "some value"
+    cache.get[String]("someKey") must_== Some("some value")
+    there was one(underlyingClient).get("someKey")
+  }
+
+  "doing a cache get delegates and returns None if the value is null" in {
+    underlyingClient.get("someKey") returns null
+    cache.get[String]("someKey") must_== None
     there was one(underlyingClient).get("someKey")
   }
 

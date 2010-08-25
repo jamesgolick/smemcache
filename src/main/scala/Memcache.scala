@@ -25,8 +25,11 @@ object Memcache {
 }
 
 class Memcache(val client: MemcachedClient) {
-  def get[A](key: String): A = {
-    client.get(key).asInstanceOf[A]
+  def get[A](key: String): Option[A] = {
+    client.get(key) match {
+      case a: A => Some(a)
+      case null => None
+    }
   }
 
   def set[A](key: String, value: A, expiration: Int = 0): Future[JBool] = {
