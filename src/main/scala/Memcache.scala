@@ -1,4 +1,4 @@
-package com.protose.smemcache
+package smemcache
 
 import java.net.InetSocketAddress
 import java.util.concurrent.Future

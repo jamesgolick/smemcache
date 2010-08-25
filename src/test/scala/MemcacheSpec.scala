@@ -1,4 +1,4 @@
-package com.protose.smemcache.test
+package smemcache.test
 
 import com.protose.smemcache.Memcache
 import com.protose.smemcache.Memcache._
