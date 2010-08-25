@@ -62,13 +62,13 @@ object MemcacheSpec extends Specification with Mockito {
     }
   }
 
-  "doing a multiGet delegates to the client" in {
+  "doing a multiget delegates to the client" in {
     val map      = new java.util.HashMap[String, Object]()
     val scalaMap = Map("key1" -> "value1")
 
     map.put("key1", "value1")
     underlyingClient.getBulk(Set("key1", "key2").toList) returns map
-    cache.multiGet(Set("key1", "key2")) must_== scalaMap
+    cache.multiget(Set("key1", "key2")) must_== scalaMap
   }
 
   "prepending to a key delegates to the client" in {
