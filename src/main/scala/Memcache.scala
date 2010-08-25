@@ -39,6 +39,18 @@ class Memcache(val client: MemcachedClient) {
     }
   }
 
+  def multigetWithMissFunction[A](keys: Set[String])(missFunc: String => Option[A]): Map[String, A] = {
+    val hits = multiget(keys)
+    (keys -- hits.keySet).foldLeft[Map[String, A]](hits) { (results, missKey) =>
+      missFunc(missKey) match {
+        case Some(missValue) =>
+          set(missKey, missValue)
+          results + (missKey -> missValue)
+        case None => results
+      }
+    }
+  }
+
   def prepend[A](key: String, value: A): Future[JBool] = {
     client.prepend(0, key, value)
   }
