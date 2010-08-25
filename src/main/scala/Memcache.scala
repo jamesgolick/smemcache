@@ -64,4 +64,8 @@ class Memcache(val client: MemcachedClient) {
   def prepend[A](key: String, value: A): Future[JBool] = {
     client.prepend(0, key, value)
   }
+
+  def delete(key: String): Future[JBool] = {
+    client.delete(key)
+  }
 }

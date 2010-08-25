@@ -1,7 +1,7 @@
 package smemcache.test
 
-import com.protose.smemcache.Memcache
-import com.protose.smemcache.Memcache._
+import smemcache.Memcache
+import smemcache.Memcache._
 
 import java.lang.{Boolean => JBool}
 import java.net.InetSocketAddress
@@ -110,6 +110,14 @@ object MemcacheSpec extends Specification with Mockito {
     cache.prepend("a", "b")
     got {
       underlyingClient.prepend(0, "a", "b")
+    }
+  }
+
+  "doing a delete delegates to the client" in {
+    underlyingClient.delete("a") returns future
+    cache.delete("a") must_== future
+    got {
+      underlyingClient.delete("a")
     }
   }
 }
