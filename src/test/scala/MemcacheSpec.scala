@@ -120,4 +120,12 @@ object MemcacheSpec extends Specification with Mockito {
       underlyingClient.delete("a")
     }
   }
+
+  "doing an add delegates" in {
+    underlyingClient.add("a", 0, "b") returns future
+    cache.add("a", "b") must_== future
+    got {
+      underlyingClient.add("a", 0, "b")
+    }
+  }
 }

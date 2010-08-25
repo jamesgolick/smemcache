@@ -68,4 +68,8 @@ class Memcache(val client: MemcachedClient) {
   def delete(key: String): Future[JBool] = {
     client.delete(key)
   }
+
+  def add[A](key: String, value: A, expiration: Int = 0): Future[JBool] = {
+    client.add(key, expiration, value.asInstanceOf[Object])
+  }
 }
