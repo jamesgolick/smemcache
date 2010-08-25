@@ -85,6 +85,20 @@ object MemcacheSpec extends Specification with Mockito {
     called must_== List("key2", "key3")
   }
 
+  "doing a multiget with a bulk miss function calls the function for all misses" in {
+    val map      = new java.util.HashMap[String, Object]()
+    val scalaMap = Map("key1" -> "value1", "key2" -> "asdf", "key3" -> "bsdf")
+    var called   = Set[String]()
+    val missFunc = { key: Set[String] => called = key; Map("key2" -> "asdf", "key3" -> "bsdf") }
+
+    map.put("key1", "value1")
+    underlyingClient.getBulk(Set("key1", "key2", "key3").toList) returns map
+    cache.multigetWithBulkMiss(Set("key1", "key2", "key3"))(missFunc) must_== scalaMap
+    there was one(underlyingClient).set("key2", 0, "asdf")
+    there was one(underlyingClient).set("key3", 0, "bsdf")
+    called must_== Set("key2", "key3")
+  }
+
   "prepending to a key delegates to the client" in {
     underlyingClient.prepend(0, "a", "b") returns future
     cache.prepend("a", "b")

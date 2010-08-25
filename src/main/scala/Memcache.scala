@@ -51,6 +51,13 @@ class Memcache(val client: MemcachedClient) {
     }
   }
 
+  def multigetWithBulkMiss[A](keys: Set[String])(missFunc: Set[String] => Map[String, A]): Map[String, A] = {
+    val hits = multiget(keys)
+    val misses = missFunc(keys -- hits.keySet)
+    misses.foreach { case (key, value) => set(key, value) }
+    hits ++ misses
+  }
+
   def prepend[A](key: String, value: A): Future[JBool] = {
     client.prepend(0, key, value)
   }
