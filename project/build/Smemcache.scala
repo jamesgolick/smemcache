@@ -8,4 +8,5 @@ class SmemcacheProject(info: ProjectInfo) extends DefaultProject(info) {
   val spymemcached  = "net.spy.memcached" % "spymemcached" % "2.4.2" from "http://spymemcached.googlecode.com/files/memcached-2.4.2.jar"
   val snapshotsRepo = "Scala Tools Snapshots Repository" at "http://scala-tools.org/repo-snapshots/"
   val logula        = "com.codahale" %% "logula" % "1.0.3" withSources()
+  val metrics       = "com.yammer" %% "metrics" % "1.0.7" withSources()
 }
