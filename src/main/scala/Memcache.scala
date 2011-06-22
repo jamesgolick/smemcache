@@ -13,8 +13,8 @@ object Memcache {
       InetSocketAddress = {
       val split    = string.split(":")
       split.length match {
-          case 1 => new InetSocketAddress(split.first, 11211)
-          case 2 => new InetSocketAddress(split.first, split.last.toInt)
+          case 1 => new InetSocketAddress(split.head, 11211)
+          case 2 => new InetSocketAddress(split.head, split.last.toInt)
       }
   }
 
