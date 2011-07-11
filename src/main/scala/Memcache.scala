@@ -72,4 +72,12 @@ class Memcache(val client: MemcachedClient) {
   def add[A](key: String, value: A, expiration: Int = 0): Future[JBool] = {
     client.add(key, expiration, value.asInstanceOf[Object])
   }
+
+  def incr(key: String, by: Int = 1): Long = {
+    client.incr(key, by)
+  }
+
+  def decr(key: String, by: Int = 1): Long = {
+    client.decr(key, by)
+  }
 }
