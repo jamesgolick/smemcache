@@ -9,7 +9,6 @@ class SmemcacheProject(info: ProjectInfo) extends DefaultProject(info) with rsyn
   val spymemcached  = "spy" % "spymemcached" % "2.7.1"
   val snapshotsRepo = "Scala Tools Snapshots Repository" at "http://scala-tools.org/repo-snapshots/"
   val logula        = "com.codahale" %% "logula" % "1.0.3"
-  val metrics       = "com.yammer" %% "metrics" % "1.0.7"
 
   def rsyncRepo     = "james@jamesgolick.com:/var/www/repo.jamesgolick.com"
 }
