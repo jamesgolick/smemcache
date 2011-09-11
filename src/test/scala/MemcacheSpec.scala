@@ -5,9 +5,9 @@ import smemcache.Memcache._
 
 import java.lang.{Boolean => JBool}
 import java.net.InetSocketAddress
-import java.util.concurrent.FutureTask
 import java.util.concurrent.Callable
 
+import net.spy.memcached.internal.OperationFuture
 import net.spy.memcached.MemcachedClient
 
 import org.specs.Specification
@@ -50,7 +50,7 @@ object MemcacheSpec extends Specification with Mockito {
   val callable = new Callable[JBool]() {
       def call() = new JBool(true)
   }
-  val future = new FutureTask[java.lang.Boolean](callable)
+  val future = mock[OperationFuture[java.lang.Boolean]]
 
   "doing a set sets a default expiry in the client" in {
     underlyingClient.set("someKey", 0, "someValue") returns future
